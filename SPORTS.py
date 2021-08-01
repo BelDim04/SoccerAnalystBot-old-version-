@@ -12,6 +12,8 @@ leagues_fte = [1874, 1859]
 
 bookmaker = 'onexbet'
 
+bookmaker_name = '1xBet'
+
 min_mat = 1.05
 
 min_prob = 0.35

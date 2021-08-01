@@ -23,11 +23,11 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['information'])
 def inf(message):
-    bot.send_message(message.chat.id, 'Hello! I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC. If I send nothing - there are not good deals.')
+    bot.send_message(message.chat.id, 'Hello! I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC. If I send nothing - there are no good deals.')
     
 @bot.message_handler(commands=['figuresandfacts'])
 def figures(message):
-    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of is success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit frome one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round(SPORTS.gamma*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'.')
+    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of is success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit frome one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'.')
     
 @bot.message_handler(commands=['subscribe'])
 def subscribe(message):
@@ -116,6 +116,7 @@ def advToText(adv):
                 t+='  (m='+str(round(p[Checker.ANALYZE][Checker.MAT],3))+', p='+str(round(p[Checker.ANALYZE][Checker.PROB],3))+')'
                 t+='\n'
         t+='--------------------------------------\n'
+    t+='k - from '+SPORTS.bookmaker_name+'\n'
     t+='Recommended rate - '+str(round(SPORTS.alpha*100, 2))+'% of the bank.'
     return t
         
