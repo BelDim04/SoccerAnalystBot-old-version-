@@ -7,7 +7,7 @@ Created on Tue Jul 27 02:26:12 2021
 from threading import Thread
 import telebot
 import time
-import SqliteJ
+import PostgreSQL
 import Odds
 import SPORTS
 import FiveThirtyEight as FTE
@@ -21,6 +21,10 @@ f = open('TG_TOKEN.txt')
 TOKEN = f.read()
 bot = telebot.TeleBot(TOKEN)
 
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, 'Hello! Use /information and /figuresandfacts to learn more about me.')
+
 @bot.message_handler(commands=['information'])
 def inf(message):
     bot.send_message(message.chat.id, 'Hello! I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC. If I send nothing - there are no good deals.')
@@ -32,10 +36,10 @@ def figures(message):
 @bot.message_handler(commands=['subscribe'])
 def subscribe(message):
     ans = 0
-    if(not SqliteJ.subscriber_exists(message.chat.id)):
-        ans = SqliteJ.add_subscriber(message.chat.id)
+    if(not PostgreSQL.subscriber_exists(message.chat.id)):
+        ans = PostgreSQL.add_subscriber(message.chat.id)
     else:
-        ans = SqliteJ.update_subscription(message.chat.id, True)
+        ans = PostgreSQL.update_subscription(message.chat.id, True)
     if(ans):
         bot.reply_to(message, "You have successfully subscribed!")
     else:
@@ -44,10 +48,10 @@ def subscribe(message):
 @bot.message_handler(commands=['unsubscribe'])
 def unsubscribe(message):
     ans = 0
-    if(not SqliteJ.subscriber_exists(message.from_user.id)):
-        ans = SqliteJ.add_subscriber(message.chat.id, False)
+    if(not PostgreSQL.subscriber_exists(message.from_user.id)):
+        ans = PostgreSQL.add_subscriber(message.chat.id, False)
     else:
-        ans = SqliteJ.update_subscription(message.chat.id, False)
+        ans = PostgreSQL.update_subscription(message.chat.id, False)
     if(ans):
         bot.reply_to(message, "You have unsubscribed.")
     else:
@@ -126,9 +130,9 @@ def sendAll():
     if(len(adv) == 0):
         return
     adv_text = advToText(adv)
-    subscribers = SqliteJ.get_subscriptions()
+    subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
-        bot.send_message(s[SqliteJ.CHAT_ID], adv_text)
+        bot.send_message(s[PostgreSQL.CHAT_ID], adv_text)
     
 
 def targetF():
