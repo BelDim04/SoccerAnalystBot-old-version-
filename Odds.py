@@ -10,8 +10,7 @@ import SPORTS
 from datetime import datetime
 
 
-f = open('ODDS_TOKEN.txt')
-API_KEY = f.read()
+API_KEY = 'b93d870cbb382d6f225416897686a12c'
 
 SPORT = SPORTS.sports_odds
 
