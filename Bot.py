@@ -17,9 +17,9 @@ from datetime import datetime
 
 TIME = '08:00'
 
-f = open('TG_TOKEN.txt')
-TOKEN = f.read()
-bot = telebot.TeleBot(TOKEN)
+
+TOKEN = '1815897690:AAHH3V0B_c4LzN97e4X95Z_fQtQonagw7wU'
+bot = telebot.AsyncTeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
