@@ -61,3 +61,63 @@ def update_subscription(chat_id, status):
     con.close()
     return bool(ans)
 #-----------------------------------------------------------------------------
+
+SPORT_TITLE = 'sport_title'
+COMMENCE_TIME = 'commence_time'
+HOME_TEAM = 'home_team'
+AWAY_TEAM = 'away_team'
+PREDS = 'preds'
+MAT = 'mat'
+PROB = 'prob'
+ANALYZE = 'analayze'
+TYPE = 'type'
+
+def addMatchBets(match):
+    date = match[COMMENCE_TIME][:10]
+    ht = match[HOME_TEAM]
+    at = match[AWAY_TEAM]
+    preds = match[PREDS]
+    con = psycopg2.connect(dbname=DB_NAME, user=USER, 
+                        password=PASSWORD, host=HOST)
+    cur = con.cursor()
+    for p in preds:
+        if(p[TYPE]!='h2h'):
+            cur.execute("INSERT INTO bets (date,league,ht,at,type,name,point,price) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (date,match[SPORT_TITLE],ht,at,p[TYPE],p['name'],p['point'],p['price']))
+        else:
+            cur.execute("INSERT INTO bets (date,league,ht,at,type,name,price) VALUES(%s,%s,%s,%s,%s,%s,%s)", (date,match[SPORT_TITLE],ht,at,p[TYPE],p['name'],p['price']))
+    ans = cur.rowcount
+    con.commit()
+    cur.close()
+    con.close()
+    return bool(ans)
+
+def getBetsByDate(date, league):
+    con = psycopg2.connect(dbname=DB_NAME, user=USER, 
+                        password=PASSWORD, host=HOST)
+    cur = con.cursor()
+    cur.execute("SELECT * FROM bets WHERE date = %s AND league = %s", (date.strftime('%Y-%m-%d'),league))
+    ans = cur.fetchall()
+    cur.close()
+    con.close()
+    return ans
+
+def setBetStatus(date,ht,at,status):
+    con = psycopg2.connect(dbname=DB_NAME, user=USER, 
+                        password=PASSWORD, host=HOST)
+    cur = con.cursor()
+    cur.execute("UPDATE bets SET status = %s WHERE date = %s AND ht = %s AND at = %s", (status, date.strftime('%Y-%m-%d'), ht, at))
+    ans = cur.rowcount
+    con.commit()
+    cur.close()
+    con.close()
+    return bool(ans)
+
+def getAllBets():
+    con = psycopg2.connect(dbname=DB_NAME, user=USER, 
+                        password=PASSWORD, host=HOST)
+    cur = con.cursor()
+    cur.execute("SELECT * FROM bets")
+    ans = cur.fetchall()
+    cur.close()
+    con.close()
+    return ans
