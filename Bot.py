@@ -119,13 +119,26 @@ def advToText(adv):
 def sendAll():
     adv = todayAdv()
     for a in adv:
-        PostgreSQL.addMatchBets(a)
+        mToBets(a)
     if(len(adv) == 0):
         return
     adv_text = advToText(adv)
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
         bot.send_message(s[PostgreSQL.CHAT_ID], adv_text)
+        
+        
+def mToBets(match):
+    date = match[COMMENCE_TIME][:10]
+    ht = match[HOME_TEAM]
+    at = match[AWAY_TEAM]
+    league = match[SPORT_TITLE]
+    preds = match[PREDS]
+    for p in preds:
+        if(p[Checker.TYPE]=='h2h'):
+            PostgreSQL.addMatchBets(date, ht, at, p[Checker.TYPE], p['name'], -0.5, p['price'], league)
+        else:
+            PostgreSQL.addMatchBets(date, ht, at, p[Checker.TYPE], p['name'], p['point'], p['price'], league)
   
 
 def setStat():
@@ -137,13 +150,13 @@ def setStat():
             continue
         rs = ApiFootball.dateMatches(date, i)
         for m in ms:
-            ht = m[2]
-            at = m[3]
+            ht = m[PostgreSQL.HT]
+            at = m[PostgreSQL.AT]
             for r in rs:
                 if(r['teams']['home']['name']==SPORTS.teams_odds_to_apifootball[i][ht] and r['teams']['away']['name']==SPORTS.teams_odds_to_apifootball[i][at]):
                     hg = r['goals']['home']
                     ag = r['goals']['away']
-                    status = Checker.chekResStatus(ht, at, hg, ag, m[4], m[5], m[6])
+                    status = Checker.checkResStatus(ht, at, hg, ag, PostgreSQL.TYPE, PostgreSQL.NAME, PostgreSQL.POINT)
                     PostgreSQL.setBetStatus(date, ht, at, status)
                     break
                 
@@ -178,6 +191,7 @@ def targetF():
             sendAll()
         if(datetime.utcnow().strftime('%H:%M') == TIME_S):
             setStat()
+            sendStat()
         time.sleep(60)
         
 th = Thread(target=targetF)

@@ -160,7 +160,7 @@ def check(fte_matchdata, odds_event):
     return ans
 
 
-def chekResStatus(ht, at, hg, ag, t, name, point=0):
+def checkResStatus(ht, at, hg, ag, t, name, point):
     if(t=='h2h'):
         if(name == ht):
             if(hg>ag):

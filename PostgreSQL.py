@@ -61,30 +61,22 @@ def update_subscription(chat_id, status):
     con.close()
     return bool(ans)
 #-----------------------------------------------------------------------------
+BET_ID=0
+DATE=1
+HT=2
+AT=3
+TYPE=4
+NAME=5
+POINT=6
+PRICE=7
+STATUS=8
+LEAGUE=9
 
-SPORT_TITLE = 'sport_title'
-COMMENCE_TIME = 'commence_time'
-HOME_TEAM = 'home_team'
-AWAY_TEAM = 'away_team'
-PREDS = 'preds'
-MAT = 'mat'
-PROB = 'prob'
-ANALYZE = 'analayze'
-TYPE = 'type'
-
-def addMatchBets(match):
-    date = match[COMMENCE_TIME][:10]
-    ht = match[HOME_TEAM]
-    at = match[AWAY_TEAM]
-    preds = match[PREDS]
+def addMatchBets(date,ht,at,t,name,point,price,league):
     con = psycopg2.connect(dbname=DB_NAME, user=USER, 
                         password=PASSWORD, host=HOST)
     cur = con.cursor()
-    for p in preds:
-        if(p[TYPE]!='h2h'):
-            cur.execute("INSERT INTO bets (date,league,ht,at,type,name,point,price) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (date,match[SPORT_TITLE],ht,at,p[TYPE],p['name'],p['point'],p['price']))
-        else:
-            cur.execute("INSERT INTO bets (date,league,ht,at,type,name,price) VALUES(%s,%s,%s,%s,%s,%s,%s)", (date,match[SPORT_TITLE],ht,at,p[TYPE],p['name'],p['price']))
+    cur.execute("INSERT INTO bets (date,ht,at,type,name,point,price,league) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (date,ht,at,t,name,point,price,league))
     ans = cur.rowcount
     con.commit()
     cur.close()
