@@ -10,12 +10,13 @@ import time
 import PostgreSQL
 import Odds
 import SPORTS
+import ApiFootball
 import FiveThirtyEight as FTE
 import Checker
-from datetime import datetime
+from datetime import datetime, timedelta
 
-
-TIME = '08:00'
+TIME = '08:30'
+TIME_S = '08:00'
 
 
 TOKEN = '1815897690:AAHH3V0B_c4LzN97e4X95Z_fQtQonagw7wU'
@@ -27,11 +28,11 @@ def start(message):
 
 @bot.message_handler(commands=['information'])
 def inf(message):
-    bot.send_message(message.chat.id, 'Hello! I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC. If I send nothing - there are no good deals.')
+    bot.send_message(message.chat.id, 'Hello! I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC. If I send nothing - there are no good deals. Keep in mind that my recommendations and predictions are only advice and not a motivation for action!')
     
 @bot.message_handler(commands=['figuresandfacts'])
 def figures(message):
-    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of is success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit frome one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'.')
+    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of is success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit frome one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'. Also, I advise you to check my predictions, paying attention to the latest news, such as injuries or disqualifications, because I am not good enough to take this into account.')
     
 @bot.message_handler(commands=['subscribe'])
 def subscribe(message):
@@ -59,20 +60,10 @@ def unsubscribe(message):
         
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
-    if(message.text=='_._ForceUpdate_!_'):
-        if(int(Odds.REQUESTS_REMAINING)>200):
-            adv = todayAdv()
-            if(len(adv) == 0):
-                bot.send_message(message.chat.id, 'Nothing for now')
-            adv_text = advToText(adv)
-            bot.send_message(message.chat.id, adv_text)
-            bot.send_message(message.chat.id, 'Requests remaining '+str(Odds.REQUESTS_REMAINING))
-        else:
-            bot.send_message(message.chat.id, 'Requests remaining '+str(Odds.REQUESTS_REMAINING))
-    elif(message.text=='_._RequestsRemaining_!_'):
-        bot.send_message(message.chat.id, 'Requests remaining '+str(Odds.REQUESTS_REMAINING))
+    if(message.text == '=REQUESTS_REMAINING='):
+        bot.send_message(message.chat.id, str(Odds.REQUESTS_REMAINING))
     else:
-        bot.send_message(message.chat.id, 'Wait '+TIME+' UTC')
+        bot.send_message(message.chat.id, 'I am hard at work and I don`t have time to chat now. Use commands to interact with me.')
 
 
 #---------------------------------------------------------
@@ -127,18 +118,66 @@ def advToText(adv):
 
 def sendAll():
     adv = todayAdv()
+    for a in adv:
+        PostgreSQL.addMatchBets(a)
     if(len(adv) == 0):
         return
     adv_text = advToText(adv)
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
         bot.send_message(s[PostgreSQL.CHAT_ID], adv_text)
-    
+  
+
+def setStat():
+    date = datetime.utcnow()+timedelta(days=-1)
+    for i in range(len(SPORTS.sport_title_odds)):
+        l = SPORTS.sport_title_odds[i]
+        ms = PostgreSQL.getBetsByDate(date, l)
+        if(len(ms)==0):
+            continue
+        rs = ApiFootball.dateMatches(date, i)
+        for m in ms:
+            ht = m[2]
+            at = m[3]
+            for r in rs:
+                if(r['teams']['home']['name']==SPORTS.teams_odds_to_apifootball[i][ht] and r['teams']['away']['name']==SPORTS.teams_odds_to_apifootball[i][at]):
+                    hg = r['goals']['home']
+                    ag = r['goals']['away']
+                    status = Checker.chekResStatus(ht, at, hg, ag, m[4], m[5], m[6])
+                    PostgreSQL.setBetStatus(date, ht, at, status)
+                    break
+                
+def sendStat():
+    bets = PostgreSQL.getAllBets()
+    cb=1
+    nb=1
+    ss=0
+    wb=0
+    lb=0
+    rb=0
+    for b in bets:
+        if(b[8]==1):
+            cb+=SPORTS.alpha*cb*(b[7]-1)
+            wb+=1
+        elif(b[8]==-1):
+            cb-=SPORTS.alpha*cb
+            lb+=1
+        else:
+            rb+=1
+        ss+=SPORTS.alpha*cb
+    if(ss==0):
+        return
+    subscribers = PostgreSQL.get_subscriptions()
+    for s in subscribers:
+        bot.send_message(s[PostgreSQL.CHAT_ID], '   Statistics\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n ROI - '+str((cb-nb)/nb)+'\n YIELD - '+str((cb-nb)/ss)+'\n (Current bank)/(Start bank) - '+str(cb/nb))
+        
 
 def targetF():
     while True:
         if(datetime.utcnow().strftime('%H:%M') == TIME):
             sendAll()
+        if(datetime.utcnow().strftime('%H:%M') == TIME_S):
+            setStat()
         time.sleep(60)
         
 th = Thread(target=targetF)

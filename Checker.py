@@ -17,9 +17,9 @@ TYPE = 'type'
 def goalMatrix(proj_score1, proj_score2):
     d1 = []
     d2 = []
-    for c in range(int(poisson(proj_score1).interval(0.999)[1])):
+    for c in range(int(poisson(proj_score1).interval(0.99999)[1])):
         d1.append(poisson(proj_score1).pmf(c))
-    for c in range(int(poisson(proj_score2).interval(0.999)[1])):
+    for c in range(int(poisson(proj_score2).interval(0.99999)[1])):
         d2.append(poisson(proj_score2).pmf(c))
     s = 0
     for i in range(len(d1)):
@@ -160,8 +160,45 @@ def check(fte_matchdata, odds_event):
     return ans
 
 
-#updateData()
-#tml = todayMatchList()
-#for i in range(len(tml)):
-#   for j in range(len(tml[i])):
-#       print(check(getMatchData(i,tml[i][j]['home_team'],tml[i][j]['away_team']), tml[i][j]))
+def chekResStatus(ht, at, hg, ag, t, name, point=0):
+    if(t=='h2h'):
+        if(name == ht):
+            if(hg>ag):
+                return 1
+            else:
+                return -1
+        if(name == at):
+            if(hg<ag):
+                return 1
+            else:
+                return -1
+    if(t=='spreads'):
+        if(name == ht):
+            if(hg+point>ag):
+                return 1
+            if(hg+point==ag):
+                return 0
+            else:
+                return -1
+        if(name == at):
+            if(hg<ag+point):
+                return 1
+            if(hg==ag+point):
+                return 0
+            else:
+                return -1
+    if(t=='totals'):
+        if(name == 'Over'):
+            if(hg+ag>point):
+                return 1
+            if(hg+ag==point):
+                return 0
+            else:
+                return -1
+        if(name == 'Under'):
+            if(hg+ag<point):
+                return 1
+            if(hg+ag==point):
+                return 0
+            else:
+                return -1

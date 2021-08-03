@@ -25,10 +25,3 @@ def getMatchData(league, ht, at):
                 & ((data['team1']==ht) | (data['team2']==at))
                 & (data['score1']==-1)
                 & (data['score2']==-1)].iloc[0]
-
-def getMatchRes(ht, at):
-    data = pd.read_csv (DATA_FILE_NAME)
-    data = data.fillna(-1)
-    return data[((data['team1']==ht) | (data['team2']==at))
-                & (data['score1']!=-1)
-                & (data['score2']!=-1)].iloc[-1]
