@@ -169,10 +169,10 @@ def sendStat():
     lb=0
     rb=0
     for b in bets:
-        if(b[8]==1):
-            cb+=SPORTS.alpha*cb*(b[7]-1)
+        if(b[PostgreSQL.BET_STATUS]==1):
+            cb+=SPORTS.alpha*cb*(b[PostgreSQL.Price]-1)
             wb+=1
-        elif(b[8]==-1):
+        elif(b[PostgreSQL.BET_STATUS]==-1):
             cb-=SPORTS.alpha*cb
             lb+=1
         else:
