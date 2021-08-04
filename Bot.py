@@ -118,10 +118,10 @@ def advToText(adv):
 
 def sendAll():
     adv = todayAdv()
-    for a in adv:
-        mToBets(a)
     if(len(adv) == 0):
         return
+    for a in adv:
+        mToBets(a)
     adv_text = advToText(adv)
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
