@@ -118,10 +118,10 @@ def advToText(adv):
 
 def sendAll():
     adv = todayAdv()
-    for a in adv:
-        mToBets(a)
     if(len(adv) == 0):
         return
+    for a in adv:
+        mToBets(a)
     adv_text = advToText(adv)
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
@@ -169,10 +169,10 @@ def sendStat():
     lb=0
     rb=0
     for b in bets:
-        if(b[8]==1):
-            cb+=SPORTS.alpha*cb*(b[7]-1)
+        if(b[PostgreSQL.BET_STATUS]==1):
+            cb+=SPORTS.alpha*cb*(b[PostgreSQL.Price]-1)
             wb+=1
-        elif(b[8]==-1):
+        elif(b[PostgreSQL.BET_STATUS]==-1):
             cb-=SPORTS.alpha*cb
             lb+=1
         else:

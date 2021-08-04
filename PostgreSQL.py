@@ -69,7 +69,7 @@ TYPE=4
 NAME=5
 POINT=6
 PRICE=7
-STATUS=8
+BET_STATUS=8
 LEAGUE=9
 
 def addMatchBets(date,ht,at,t,name,point,price,league):
