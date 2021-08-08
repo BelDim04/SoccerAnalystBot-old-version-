@@ -136,9 +136,9 @@ def mToBets(match):
     preds = match[PREDS]
     for p in preds:
         if(p[Checker.TYPE]=='h2h'):
-            PostgreSQL.addMatchBets(date, ht, at, p[Checker.TYPE], p['name'], -0.5, p['price'], league)
+            PostgreSQL.addMatchBets(date, league, ht, at, p[Checker.TYPE], p['name'], -0.5, p['price'], p[Checker.ANALYZE][Checker.PROB])
         else:
-            PostgreSQL.addMatchBets(date, ht, at, p[Checker.TYPE], p['name'], p['point'], p['price'], league)
+            PostgreSQL.addMatchBets(date, league, ht, at, p[Checker.TYPE], p['name'], p['point'], p['price'], p[Checker.ANALYZE][Checker.PROB])
   
 
 def setStat():
@@ -156,7 +156,8 @@ def setStat():
                 if(r['teams']['home']['name']==SPORTS.teams_odds_to_apifootball[i][ht] and r['teams']['away']['name']==SPORTS.teams_odds_to_apifootball[i][at]):
                     hg = r['goals']['home']
                     ag = r['goals']['away']
-                    status = Checker.checkResStatus(ht, at, hg, ag, PostgreSQL.TYPE, PostgreSQL.NAME, PostgreSQL.POINT)
+                    status = Checker.checkResStatus(ht, at, hg, ag, m[PostgreSQL.TYPE], m[PostgreSQL.NAME], m[PostgreSQL.POINT])
+                    print(status)
                     PostgreSQL.setBetStatus(date, ht, at, status)
                     break
                 
@@ -172,17 +173,39 @@ def sendStat():
         if(b[PostgreSQL.BET_STATUS]==1):
             cb+=SPORTS.alpha*cb*(b[PostgreSQL.Price]-1)
             wb+=1
+            ss+=SPORTS.alpha*cb
         elif(b[PostgreSQL.BET_STATUS]==-1):
             cb-=SPORTS.alpha*cb
             lb+=1
-        else:
+            ss+=SPORTS.alpha*cb
+        elif(b[PostgreSQL.BET_STATUS]==0):
             rb+=1
-        ss+=SPORTS.alpha*cb
+            ss+=SPORTS.alpha*cb
     if(ss==0):
+        return
+    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n ROI - '+str((cb-nb)/nb)+'\n YIELD - '+str((cb-nb)/ss)+'\n (Current bank)/(Start bank) - '+str(cb/nb)
+    bets = PostgreSQL.getBetsByDate(datetime.utcnow()+timedelta(days=-1))
+    wb=0
+    lb=0
+    rb=0
+    k=0
+    for b in bets:
+        if(b[PostgreSQL.BET_STATUS]==1):
+            wb+=1
+            k+=1
+        elif(b[PostgreSQL.BET_STATUS]==-1):
+            lb+=1
+            k+=1
+        elif(b[PostgreSQL.BET_STATUS]==0):
+            rb+=1
+            k+=1
+    if(k!=0):
+        text+='\n\n---Yesterday---\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)
+    else:
         return
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
-        bot.send_message(s[PostgreSQL.CHAT_ID], '   Statistics\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n ROI - '+str((cb-nb)/nb)+'\n YIELD - '+str((cb-nb)/ss)+'\n (Current bank)/(Start bank) - '+str(cb/nb))
+        bot.send_message(s[PostgreSQL.CHAT_ID], text)
         
 
 def targetF():

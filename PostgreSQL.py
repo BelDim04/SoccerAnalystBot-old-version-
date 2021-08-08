@@ -63,31 +63,35 @@ def update_subscription(chat_id, status):
 #-----------------------------------------------------------------------------
 BET_ID=0
 DATE=1
-HT=2
-AT=3
-TYPE=4
-NAME=5
-POINT=6
-PRICE=7
-BET_STATUS=8
-LEAGUE=9
+LEAGUE=2
+HT=3
+AT=4
+TYPE=5
+NAME=6
+POINT=7
+PRICE=8
+PROB=9
+BET_STATUS=10
 
-def addMatchBets(date,ht,at,t,name,point,price,league):
+def addMatchBets(date,league,ht,at,t,name,point,price,prob):
     con = psycopg2.connect(dbname=DB_NAME, user=USER, 
                         password=PASSWORD, host=HOST)
     cur = con.cursor()
-    cur.execute("INSERT INTO bets (date,ht,at,type,name,point,price,league) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (date,ht,at,t,name,point,price,league))
+    cur.execute("INSERT INTO bets (date,league,ht,at,type,name,point,price,prob) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)", (date,league,ht,at,t,name,point,price,prob))
     ans = cur.rowcount
     con.commit()
     cur.close()
     con.close()
     return bool(ans)
 
-def getBetsByDate(date, league):
+def getBetsByDate(date, league=''):
     con = psycopg2.connect(dbname=DB_NAME, user=USER, 
                         password=PASSWORD, host=HOST)
     cur = con.cursor()
-    cur.execute("SELECT * FROM bets WHERE date = %s AND league = %s", (date.strftime('%Y-%m-%d'),league))
+    if(league!=''):
+        cur.execute("SELECT * FROM bets WHERE date = %s AND league = %s", (date.strftime('%Y-%m-%d'),league))
+    else:
+        cur.execute("SELECT * FROM bets WHERE date = %s", (date.strftime('%Y-%m-%d')))
     ans = cur.fetchall()
     cur.close()
     con.close()
