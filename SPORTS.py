@@ -58,12 +58,12 @@ bookmaker = 'onexbet'
 
 bookmaker_name = '1xBet'
 
-min_mat = 1.05
+min_mat = 1.1
 
-min_prob = 0.35
+min_prob = 0.5
 
 gamma = 0.75
 
-mu = 0.05
+mu = 0.04
 
 alpha = 1 - gamma**(1/math.log(mu, 1 - min_prob))
