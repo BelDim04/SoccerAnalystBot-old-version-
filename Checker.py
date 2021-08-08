@@ -17,9 +17,9 @@ TYPE = 'type'
 def goalMatrix(proj_score1, proj_score2):
     d1 = []
     d2 = []
-    for c in range(int(poisson(proj_score1).interval(0.99999)[1])):
+    for c in range(int(poisson(proj_score1).interval(0.999)[1])):
         d1.append(poisson(proj_score1).pmf(c))
-    for c in range(int(poisson(proj_score2).interval(0.99999)[1])):
+    for c in range(int(poisson(proj_score2).interval(0.999)[1])):
         d2.append(poisson(proj_score2).pmf(c))
     s = 0
     for i in range(len(d1)):
