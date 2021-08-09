@@ -157,7 +157,6 @@ def setStat():
                     hg = r['goals']['home']
                     ag = r['goals']['away']
                     status = Checker.checkResStatus(ht, at, hg, ag, m[PostgreSQL.TYPE], m[PostgreSQL.NAME], m[PostgreSQL.POINT])
-                    print(status)
                     PostgreSQL.setBetStatus(date, ht, at, status)
                     break
                 
@@ -183,7 +182,7 @@ def sendStat():
             ss+=SPORTS.alpha*cb
     if(ss==0):
         return
-    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n ROI - '+str((cb-nb)/nb)+'\n YIELD - '+str((cb-nb)/ss)+'\n (Current bank)/(Start bank) - '+str(cb/nb)
+    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str((cb-nb)/nb)+'\n  YIELD - '+str((cb-nb)/ss)+'\n  (Current bank)/(Start bank) - '+str(cb/nb)
     bets = PostgreSQL.getBetsByDate(datetime.utcnow()+timedelta(days=-1))
     wb=0
     lb=0
@@ -199,10 +198,9 @@ def sendStat():
         elif(b[PostgreSQL.BET_STATUS]==0):
             rb+=1
             k+=1
-    if(k!=0):
-        text+='\n\n---Yesterday---\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)
-    else:
+    if(k==0):
         return
+    text+='\n\n---Yesterday---\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
         bot.send_message(s[PostgreSQL.CHAT_ID], text)
