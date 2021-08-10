@@ -182,8 +182,9 @@ def sendStat():
             ss+=SPORTS.alpha*cb
     if(ss==0):
         return
-    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str((cb-nb)/nb)+'\n  YIELD - '+str((cb-nb)/ss)+'\n  (Current bank)/(Start bank) - '+str(cb/nb)
-    bets = PostgreSQL.getBetsByDate(datetime.utcnow()+timedelta(days=-1))
+    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str(round((cb-nb)/nb,3))+'\n  YIELD - '+str(round((cb-nb)/ss,3))+'\n  (Current bank)/(Start bank) - '+str(round(cb/nb,3))
+    date = datetime.utcnow()+timedelta(days=-1)
+    bets = PostgreSQL.getBetsByDate(date)
     wb=0
     lb=0
     rb=0
@@ -203,8 +204,7 @@ def sendStat():
     text+='\n\n---Yesterday---\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)
     subscribers = PostgreSQL.get_subscriptions()
     for s in subscribers:
-        bot.send_message(s[PostgreSQL.CHAT_ID], text)
-        
+        bot.send_message(s[PostgreSQL.CHAT_ID], text)  
 
 def targetF():
     while True:

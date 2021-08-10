@@ -91,7 +91,7 @@ def getBetsByDate(date, league=''):
     if(league!=''):
         cur.execute("SELECT * FROM bets WHERE date = %s AND league = %s", (date.strftime('%Y-%m-%d'),league))
     else:
-        cur.execute("SELECT * FROM bets WHERE date = %s", (date.strftime('%Y-%m-%d')))
+        cur.execute("SELECT * FROM bets WHERE date = %s", (date.strftime('%Y-%m-%d'),))
     ans = cur.fetchall()
     cur.close()
     con.close()
