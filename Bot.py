@@ -168,18 +168,25 @@ def sendStat():
     wb=0
     lb=0
     rb=0
+    p=bets[0]
+    u=SPORTS.alpha*cb
     for b in bets:
+        if(b[PostgreSQL.DATE]!=p[PostgreSQL.DATE]):
+            u=SPORTS.alpha*cb
         if(b[PostgreSQL.BET_STATUS]==1):
-            cb+=SPORTS.alpha*cb*(b[PostgreSQL.Price]-1)
+            cb+=u*(b[PostgreSQL.PRICE]-1)
             wb+=1
-            ss+=SPORTS.alpha*cb
+            ss+=u
+            p=b
         elif(b[PostgreSQL.BET_STATUS]==-1):
-            cb-=SPORTS.alpha*cb
+            cb-=u
             lb+=1
-            ss+=SPORTS.alpha*cb
+            ss+=u
+            p=b
         elif(b[PostgreSQL.BET_STATUS]==0):
             rb+=1
-            ss+=SPORTS.alpha*cb
+            ss+=u
+            p=b
     if(ss==0):
         return
     text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str(round((cb-nb)/nb,3))+'\n  YIELD - '+str(round((cb-nb)/ss,3))+'\n  (Current bank)/(Start bank) - '+str(round(cb/nb,3))
