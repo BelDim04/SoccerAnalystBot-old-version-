@@ -28,7 +28,13 @@ def start(message):
 
 @bot.message_handler(commands=['information'])
 def inf(message):
-    bot.send_message(message.chat.id, 'Hello! I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC. If I send nothing - there are no good deals. Keep in mind that my recommendations and predictions are only advice and not a motivation for action!')
+    t = 'I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC (use /subscribe for it). If I send nothing - there are no good deals. The following leagues are under my supervision: '
+    for l in SPORTS.sport_title_odds:
+        t+=l
+        t+=', '
+    t=t[:-2]
+    t+='. Keep in mind that my recommendations and predictions are only advice and not a motivation for action!'
+    bot.send_message(message.chat.id,  t)
     
 @bot.message_handler(commands=['figuresandfacts'])
 def figures(message):
