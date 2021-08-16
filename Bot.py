@@ -32,7 +32,7 @@ def inf(message):
     
 @bot.message_handler(commands=['figuresandfacts'])
 def figures(message):
-    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of is success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit frome one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'. Also, I advise you to check my predictions, paying attention to the latest news, such as injuries or disqualifications, because I am not good enough to take this into account.')
+    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of is success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit from one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'. Also, I advise you to check my predictions, paying attention to the latest news, such as injuries or disqualifications, because I am not good enough to take this into account.')
     
 @bot.message_handler(commands=['subscribe'])
 def subscribe(message):
