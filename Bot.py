@@ -28,7 +28,7 @@ def start(message):
 
 @bot.message_handler(commands=['information'])
 def inf(message):
-    t = 'I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC (use /subscribe for it). If I send nothing - there are no good deals. The following leagues are under my supervision: '
+    t = 'I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC (). If I send nothing - there are no good deals. The following leagues are under my supervision: '
     for l in SPORTS.sport_title_odds:
         t+=l
         t+=', '
