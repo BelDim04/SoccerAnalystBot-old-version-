@@ -38,8 +38,9 @@ def inf(message):
     
 @bot.message_handler(commands=['figuresandfacts'])
 def figures(message):
-    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability of its success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit from one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'. Also, I advise you to check my predictions, paying attention to the latest news, such as injuries or disqualifications, because I am not good enough to take this into account.')
-    
+    bot.send_message(message.chat.id, 'My strategy is based on math. I advise you an event if the mathematical expectation (m) of the bet > '+str(round(SPORTS.min_mat, 2))+' and the probability (p) of its success > '+str(round(SPORTS.min_prob,2))+'. Thus, with the recommended rate '+str(round(SPORTS.alpha*100, 2))+'% of the bank, the profit from one bet is on average not less than '+str(round((SPORTS.min_mat-1)*100,2))+'% of its value, and the probability of losing '+str(round((1-SPORTS.gamma)*100,2))+'% of the bank does not exceed '+str(round(SPORTS.mu,2))+'. Also, I advise you to check my predictions, paying attention to the latest news, such as injuries or disqualifications, because I am not good enough to take this into account.')
+
+'''    
 @bot.message_handler(commands=['subscribe'])
 def subscribe(message):
     ans = 0
@@ -63,6 +64,7 @@ def unsubscribe(message):
         bot.reply_to(message, "You have unsubscribed.")
     else:
         bot.reply_to(message, "Error")
+'''
         
 @bot.message_handler(func=lambda m: True)
 def echo_all(message):
@@ -196,7 +198,7 @@ def sendStat():
             p=b
     if(ss==0):
         return
-    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str(round((cb-nb)/nb,3))+'\n  YIELD - '+str(round((cb-nb)/ss,3))+'\n  (Current bank)/(Start bank) - '+str(round(cb/nb,3))
+    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str(round((cb-nb)/nb,3))+'\n  YIELD - '+str(round((cb-nb)/ss,3))
     date = datetime.utcnow()+timedelta(days=-1)
     bets = PostgreSQL.getBetsByDate(date)
     wb=0
