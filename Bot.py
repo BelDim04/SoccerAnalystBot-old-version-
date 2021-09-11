@@ -18,6 +18,8 @@ from datetime import datetime, timedelta
 TIME = '08:30'
 TIME_S = '08:00'
 
+CH_ID = '-1001501114700'
+
 
 TOKEN = '1815897690:AAHH3V0B_c4LzN97e4X95Z_fQtQonagw7wU'
 bot = telebot.AsyncTeleBot(TOKEN)
@@ -28,7 +30,7 @@ def start(message):
 
 @bot.message_handler(commands=['information'])
 def inf(message):
-    t = 'I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC (). If I send nothing - there are no good deals. The following leagues are under my supervision: '
+    t = 'I am soccer analyst and I can send you my thoughts on soccer betting every day at '+TIME+' UTC (check @SoccerAnalystPublic). If I send nothing - there are no good deals. The following leagues are under my supervision: '
     for l in SPORTS.sport_title_odds:
         t+=l
         t+=', '
@@ -103,7 +105,8 @@ def advToText(adv):
     t = ''
     for m in adv:
         t+=f'{m[SPORT_TITLE]}\n'
-        t+=f'{m[COMMENCE_TIME]}\n'
+        t+=f'{m[COMMENCE_TIME][:10]} '
+        t+=f'{m[COMMENCE_TIME][11:16]} UTC\n'
         t+=f'{m[HOME_TEAM]} - {m[AWAY_TEAM]}\n\n'
         for p in m[PREDS]:
             if(p[Checker.TYPE] == 'h2h'):
@@ -131,10 +134,10 @@ def sendAll():
     for a in adv:
         mToBets(a)
     adv_text = advToText(adv)
-    subscribers = PostgreSQL.get_subscriptions()
+    #subscribers = PostgreSQL.get_subscriptions()
     #for s in subscribers:
     #    bot.send_message(s[PostgreSQL.CHAT_ID], adv_text)
-    bot.send_message('-1001501114700', adv_text)
+    bot.send_message(CH_ID, adv_text)
         
         
 def mToBets(match):
@@ -218,10 +221,10 @@ def sendStat():
     if(k==0):
         return
     text+='\n\n---Yesterday---\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)
-    subscribers = PostgreSQL.get_subscriptions()
+    #subscribers = PostgreSQL.get_subscriptions()
     #for s in subscribers:
     #    bot.send_message(s[PostgreSQL.CHAT_ID], text)
-    bot.send_message('-1001501114700', text)
+    bot.send_message(CH_ID, text)
 
 def targetF():
     while True:
