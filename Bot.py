@@ -90,7 +90,11 @@ def todayAdv():
     tml = Odds.todayMatchList()
     for i in range(len(tml)):
         for j in range(len(tml[i])):
-            res = Checker.check(FTE.getMatchData(i,tml[i][j]['home_team'],tml[i][j]['away_team']), tml[i][j])
+            md = FTE.getMatchData(i,tml[i][j]['home_team'],tml[i][j]['away_team'])
+            if md.size > 0:
+                res = Checker.check(md, tml[i][j])
+            else:
+                res = []
             if(len(res)>0):
                 ans.append({
                     SPORT_TITLE:tml[i][j]['sport_title'],

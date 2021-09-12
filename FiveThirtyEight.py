@@ -21,7 +21,11 @@ def updateData():
 def getMatchData(league, ht, at):
     data = pd.read_csv (DATA_FILE_NAME)
     data = data.fillna(-1)
-    return data[(data['league_id']==LEAGUES[league]) 
-                & ((data['team1']==ht) | (data['team2']==at))
+    t = data[(data['league_id']==LEAGUES[league]) 
                 & (data['score1']==-1)
-                & (data['score2']==-1)].iloc[0]
+                & (data['score2']==-1)
+                & ((data['team1']==ht) | (data['team2']==at))]
+    if(t.size>0):
+        return t.iloc[0]
+    else:
+        return pd.DataFrame()
