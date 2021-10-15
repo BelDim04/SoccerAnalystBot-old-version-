@@ -114,19 +114,19 @@ def advToText(adv):
         t+=f'{m[HOME_TEAM]} - {m[AWAY_TEAM]}\n\n'
         for p in m[PREDS]:
             if(p[Checker.TYPE] == 'h2h'):
-                t+='Match result - '+p['name']+'  k - '+str(p['price'])
+                t+='Match result - '+p['name']+'  Kmin - '+str(round(1/p[Checker.ANALYZE][Checker.PROB],2)+0.01)+'  (Kcur - '+str(p['price'])+')'
                 t+='  (m='+str(round(p[Checker.ANALYZE][Checker.MAT],3))+', p='+str(round(p[Checker.ANALYZE][Checker.PROB],3))+')'
                 t+='\n'
             if(p[Checker.TYPE] == 'spreads'):
-                t+=p['name']+' spread '+str(p['point'])+'  k - '+str(p['price'])
+                t+=p['name']+' spread '+str(p['point'])+'  Kmin - '+str(round(1/p[Checker.ANALYZE][Checker.PROB],2)+0.01)+'  (Kcur - '+str(p['price'])+')'
                 t+='  (m='+str(round(p[Checker.ANALYZE][Checker.MAT],3))+', p='+str(round(p[Checker.ANALYZE][Checker.PROB],3))+')'
                 t+='\n'
             if(p[Checker.TYPE] == 'totals'):
-                t+='Total '+p['name']+' '+str(p['point'])+'  k - '+str(p['price'])
+                t+='Total '+p['name']+' '+str(p['point'])+'  Kmin - '+str(round(1/p[Checker.ANALYZE][Checker.PROB],2)+0.01)+'  (Kcur - '+str(p['price'])+')'
                 t+='  (m='+str(round(p[Checker.ANALYZE][Checker.MAT],3))+', p='+str(round(p[Checker.ANALYZE][Checker.PROB],3))+')'
                 t+='\n'
         t+='--------------------------------------\n'
-    t+='k - from '+SPORTS.bookmaker_name+'\n'
+    t+='Kcur - from '+SPORTS.bookmaker_name+'\n'
     t+='Recommended rate - '+str(round(SPORTS.alpha*100, 2))+'% of the bank.'
     return t
         
@@ -168,12 +168,13 @@ def setStat():
         for m in ms:
             ht = m[PostgreSQL.HT]
             at = m[PostgreSQL.AT]
+            idbs = m[PostgreSQL.BET_ID]
             for r in rs:
                 if(r['teams']['home']['name']==SPORTS.teams_odds_to_apifootball[i][ht] and r['teams']['away']['name']==SPORTS.teams_odds_to_apifootball[i][at]):
                     hg = r['goals']['home']
                     ag = r['goals']['away']
                     status = Checker.checkResStatus(ht, at, hg, ag, m[PostgreSQL.TYPE], m[PostgreSQL.NAME], m[PostgreSQL.POINT])
-                    PostgreSQL.setBetStatus(date, ht, at, status)
+                    PostgreSQL.setBetStatus(idbs, date, ht, at, status)
                     break
                 
 def sendStat():

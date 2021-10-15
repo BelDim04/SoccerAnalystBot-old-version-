@@ -60,7 +60,7 @@ bookmaker_name = '1xBet'
 
 min_mat = 1.1
 
-min_prob = 0.5
+min_prob = 0.6
 
 gamma = 0.75
 

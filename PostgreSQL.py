@@ -97,11 +97,11 @@ def getBetsByDate(date, league=''):
     con.close()
     return ans
 
-def setBetStatus(date,ht,at,status):
+def setBetStatus(idbs, date,ht,at,status):
     con = psycopg2.connect(dbname=DB_NAME, user=USER, 
                         password=PASSWORD, host=HOST)
     cur = con.cursor()
-    cur.execute("UPDATE bets SET status = %s WHERE date = %s AND ht = %s AND at = %s", (status, date.strftime('%Y-%m-%d'), ht, at))
+    cur.execute("UPDATE bets SET status = %s WHERE id=%s AND date = %s AND ht = %s AND at = %s", (status, idbs, date.strftime('%Y-%m-%d'), ht, at))
     ans = cur.rowcount
     con.commit()
     cur.close()
