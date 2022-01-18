@@ -8,7 +8,8 @@ Created on Mon Jul 26 01:04:51 2021
 import requests
 import SPORTS
 import ApiFootball
-from datetime import datetime
+import datetime
+
 
 
 API_KEY = 'b93d870cbb382d6f225416897686a12c'
@@ -36,7 +37,7 @@ def todayMatchList():
     i=0
     for sport in SPORT:
         ans.append([])
-        date = datetime.utcnow()
+        date = datetime.datetime.utcnow()
         if(len(ApiFootball.dateMatches(date, i))==0):
             continue
         odds_response = matchList(sport)
@@ -49,5 +50,6 @@ def todayMatchList():
         REQUESTS_REMAINING = odds_response.headers['x-requests-remaining']
         REQUESTS_USED = odds_response.headers['x-requests-used']
         i+=1
+    print(ans)
     return ans
 

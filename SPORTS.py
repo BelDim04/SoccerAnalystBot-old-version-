@@ -6,15 +6,36 @@ Created on Mon Jul 26 01:56:04 2021
 """
 import math
 
-sports_odds = ['soccer_sweden_allsvenskan', 'soccer_norway_eliteserien']
+sports_odds = ['soccer_italy_serie_b', 'soccer_sweden_allsvenskan', 'soccer_norway_eliteserien']
 
-sport_title_odds = ['Allsvenskan - Sweden', 'Eliteserien - Norway']
+sport_title_odds = ['Serie B - Italy', 'Allsvenskan - Sweden', 'Eliteserien - Norway']
 
-leagues_fte = [1874, 1859]
+leagues_fte = [1856, 1874, 1859]
 
-leagues_apifootball = [113, 103]
+leagues_apifootball = [136, 113, 103]
 
 teams_odds_to_apifootball=[{
+    'Parma':'Parma',
+    'Alessandria':'Alessandria',
+    'Cosenza':'Nuova Cosenza',
+    'Brescia':'Brescia',
+    'Como':'como',
+    'Monza':'Monza',
+    'SPAL':'Spal',
+    'Perugia':'Perugia',
+    'Vicenza':'Vicenza Virtus',
+    'Lecce':'Lecce',
+    'Frosinone':'Frosinone',
+    'Benevento':'Benevento',
+    'Ascoli':'Ascoli',
+    'Ternana':'Ternana',
+    'Crotone':'Crotone',
+    'Reggina':'Reggina',
+    'Pisa':'Pisa',
+    'Pordenone':'Pordenone',
+    'Cittadella':'Cittadella',
+    'Cremonese':'Cremonese'
+    },{
     'Djurgardens IF':'Djurgardens IF',
     'AIK':'AIK stockholm',
     'BK Hacken':'BK Hacken',
