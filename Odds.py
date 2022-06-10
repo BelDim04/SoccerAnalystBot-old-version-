@@ -50,6 +50,5 @@ def todayMatchList():
         REQUESTS_REMAINING = odds_response.headers['x-requests-remaining']
         REQUESTS_USED = odds_response.headers['x-requests-used']
         i+=1
-    print(ans)
     return ans
 

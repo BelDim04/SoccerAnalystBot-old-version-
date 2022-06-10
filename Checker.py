@@ -91,6 +91,7 @@ def matprobTotals(goal_matrix, name, point, price):
 
 
 def check(fte_matchdata, odds_event):
+    mk = 0.03
     ans = []
     ht = odds_event['home_team']
     at = odds_event['away_team']
@@ -110,21 +111,21 @@ def check(fte_matchdata, odds_event):
         for r in outcomes:
             if(m['key'] == 'h2h'):
                 if(r['name'] == ht):
-                    h2h_pred = h2hMatprob(fte_matchdata['prob1'], r['price'])
+                    h2h_pred = h2hMatprob(fte_matchdata['prob1'] - mk, r['price'])
                     if(h2h_pred[MAT] > SPORTS.min_mat and h2h_pred[PROB] > SPORTS.min_prob):
                         t = r
                         t[ANALYZE] = h2h_pred
                         t[TYPE] = m['key']
                         ans.append(t)
                 if(r['name'] == at):
-                    h2h_pred = h2hMatprob(fte_matchdata['prob2'], r['price'])
+                    h2h_pred = h2hMatprob(fte_matchdata['prob2'] - mk, r['price'])
                     if(h2h_pred[MAT] > SPORTS.min_mat and h2h_pred[PROB] > SPORTS.min_prob):
                         t = r
                         t[ANALYZE] = h2h_pred
                         t[TYPE] = m['key']
                         ans.append(t)
                 if(r['name'] == 'Draw'):
-                    h2h_pred = h2hMatprob(fte_matchdata['probtie'], r['price'])
+                    h2h_pred = h2hMatprob(fte_matchdata['probtie'] - mk, r['price'])
                     if(h2h_pred[MAT] > SPORTS.min_mat and h2h_pred[PROB] > SPORTS.min_prob):
                         t = r
                         t[ANALYZE] = h2h_pred
@@ -134,7 +135,7 @@ def check(fte_matchdata, odds_event):
             if(m['key'] == 'spreads'):
                 if(r['name'] == ht):
                     spreads_pred = matprobSpreads(
-                        goal_matrix, 0, r['point'], r['price'])
+                        goal_matrix, 0, r['point'], r['price']) - mk
                     if(spreads_pred[MAT] > SPORTS.min_mat and spreads_pred[PROB] > SPORTS.min_prob):
                         t = r
                         t[ANALYZE] = spreads_pred
@@ -142,7 +143,7 @@ def check(fte_matchdata, odds_event):
                         ans.append(t)
                 if(r['name'] == at):
                     spreads_pred = matprobSpreads(
-                        goal_matrix, 1, r['point'], r['price'])
+                        goal_matrix, 1, r['point'], r['price']) - mk
                     if(spreads_pred[MAT] > SPORTS.min_mat and spreads_pred[PROB] > SPORTS.min_prob):
                         t = r
                         t[ANALYZE] = spreads_pred
@@ -151,7 +152,7 @@ def check(fte_matchdata, odds_event):
 
             if(m['key'] == 'totals'):
                 totals_pred = matprobTotals(
-                    goal_matrix, r['name'], r['point'], r['price'])
+                    goal_matrix, r['name'], r['point'], r['price']) - mk
                 if(totals_pred[MAT] > SPORTS.min_mat and totals_pred[PROB] > SPORTS.min_prob):
                     t = r
                     t[ANALYZE] = totals_pred

@@ -6,13 +6,13 @@ Created on Mon Jul 26 01:56:04 2021
 """
 import math
 
-sports_odds = ['soccer_italy_serie_b', 'soccer_sweden_allsvenskan', 'soccer_norway_eliteserien']
+sports_odds = ['soccer_italy_serie_b', 'soccer_sweden_allsvenskan', 'soccer_norway_eliteserien','soccer_usa_mls','soccer_brazil_campeonato','soccer_japan_j_league']
 
-sport_title_odds = ['Serie B - Italy', 'Allsvenskan - Sweden', 'Eliteserien - Norway']
+sport_title_odds = ['Serie B - Italy', 'Allsvenskan - Sweden', 'Eliteserien - Norway','MLS', 'Brazil S\u00e9rie A','J League']
 
-leagues_fte = [1856, 1874, 1859]
+leagues_fte = [1856, 1874, 1859, 1951, 2105, 1947]
 
-leagues_apifootball = [136, 113, 103]
+leagues_apifootball = [136, 113, 103, 253, 71, 98]
 
 teams_odds_to_apifootball=[{
     'Parma':'Parma',
@@ -69,6 +69,57 @@ teams_odds_to_apifootball=[{
      'Vålerenga':'Valerenga',
      'Sarpsborg FK':'Sarpsborg 08 FF',
      'Stromsgodset':'Stromsgodset'
+    },{
+     'Seattle Sounders FC':'Seattle Sounders',
+     'San Jose Earthquakes':'San Jose Earthquakes',
+     'Orlando City SC':'Orlando City SC',
+     'New York Red Bulls':'New York Red Bulls',
+     'Vancouver Whitecaps FC':'Vancouver Whitecaps',
+     'New England Revolution':'New England Revolution',
+     'Sporting Kansas City':'Sporting Kansas City',
+     'Nashville SC':'Nashville SC',
+     'Charlotte FC':'Charlotte'
+    },
+      {
+     'Internacional':'Internacional',
+     'Botafogo':'Botafogo',
+     'Palmeiras':'Palmeiras',
+     'Fluminense':'Fluminense',
+     'Am\u00e9rica Mineiro':'America Mineiro',
+     'Sao Paulo':'Sao Paulo',
+     'Flamengo':'Flamengo',
+     'Santos':'Santos',
+     'Cear\u00e1':'Ceara',
+     'Corinthians':'Corinthians',
+     'Atletico Paranaense':'Atletico Paranaense',
+     'Atletico Goianiense':'Atletico Goianiense',
+     'Avai':'Avai',
+     'Coritiba':'Coritiba',
+     'Goi\u00e1s':'Goias',
+     'Juventude':'Juventude',
+     'Fortaleza':'"Fortaleza EC',
+     'Bragantino-SP':'RB Bragantino',
+     'Atletico Mineiro':'Atletico-MG',
+     'Cuiab\u00e1':'Cuiaba'
+    },{
+     'Consadole Sapporo':'Consadole Sapporo',
+     'Jubilo Iwata':'Jubilo Iwata',
+     'Kashiwa Reysol':'Kashiwa Reysol',
+     'Hiroshima Sanfrecce FC':'Sanfrecce Hiroshima',
+     'Shimizu S Pulse':'Shimizu S-pulse',
+     'Shonan Bellmare':'Shonan Bellmare',
+     'Urawa Red Diamonds':'Urawa',
+     'Nagoya Grampus':'Nagoya Grampus',
+     'Vissel Kobe':'Vissel Kobe',
+     'Kashima Antlers':'Kashima',
+     'Cerezo Osaka':'Cerezo Osaka',
+     'FC Tokyo':'FC Tokyo',
+     'Gamba Osaka':'Gamba Osaka'.
+     'Kawasaki Frontale':'Kawasaki Frontale'
+     'Sagan Tosu':'Sagan Tosu',
+     'Yokohama F Marinos':'Yokohama F. Marinos',
+     'Kyoto Purple Sanga':'Kyoto Sanga',
+     'Avispa Fukuoka':'Avispa Fukuoka'
     }]
 
 
@@ -79,9 +130,9 @@ bookmaker = 'onexbet'
 
 bookmaker_name = '1xBet'
 
-min_mat = 1.1
+min_mat = 1.05
 
-min_prob = 0.6
+min_prob = 0.55
 
 gamma = 0.75
 
