@@ -114,8 +114,8 @@ teams_odds_to_apifootball=[{
      'Kashima Antlers':'Kashima',
      'Cerezo Osaka':'Cerezo Osaka',
      'FC Tokyo':'FC Tokyo',
-     'Gamba Osaka':'Gamba Osaka'.
-     'Kawasaki Frontale':'Kawasaki Frontale'
+     'Gamba Osaka':'Gamba Osaka',
+     'Kawasaki Frontale':'Kawasaki Frontale',
      'Sagan Tosu':'Sagan Tosu',
      'Yokohama F Marinos':'Yokohama F. Marinos',
      'Kyoto Purple Sanga':'Kyoto Sanga',
