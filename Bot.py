@@ -15,7 +15,7 @@ import FiveThirtyEight as FTE
 import Checker
 from datetime import datetime, timedelta
 
-TIME = '08:30'
+TIME = '8:30'
 TIME_S = '08:00'
 
 CH_ID = '-1001501114700'
@@ -90,7 +90,7 @@ def todayAdv():
     tml = Odds.todayMatchList()
     for i in range(len(tml)):
         for j in range(len(tml[i])):
-            md = FTE.getMatchData(i,tml[i][j]['home_team'],tml[i][j]['away_team'])
+            md = FTE.getMatchData(i,SPORTS.teams_odds_to_apifootball[i][tml[i][j]['home_team']],SPORTS.teams_odds_to_apifootball[i][tml[i][j]['away_team']])
             if md.size > 0:
                 res = Checker.check(md, tml[i][j])
             else:
@@ -206,7 +206,7 @@ def sendStat():
             p=b
     if(ss==0):
         return
-    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n  ROI - '+str(round((cb-nb)/nb,3))+'\n  YIELD - '+str(round((cb-nb)/ss,3))
+    text = '-----Statistics-----\n Total:\n  Wins - '+str(wb)+'\n  Returns - '+str(rb)+'\n  Losses - '+str(lb)+'\n'#+'  ROI - '+str(round((cb-nb)/nb,3))+'\n  YIELD - '+str(round((cb-nb)/ss,3))
     date = datetime.utcnow()+timedelta(days=-1)
     bets = PostgreSQL.getBetsByDate(date)
     wb=0

@@ -39,6 +39,7 @@ def todayMatchList():
         ans.append([])
         date = datetime.datetime.utcnow()
         if(len(ApiFootball.dateMatches(date, i))==0):
+            i+=1
             continue
         odds_response = matchList(sport)
         if odds_response.status_code == 200:
