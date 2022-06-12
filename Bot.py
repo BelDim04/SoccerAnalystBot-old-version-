@@ -14,9 +14,10 @@ import ApiFootball
 import FiveThirtyEight as FTE
 import Checker
 from datetime import datetime, timedelta
+import pandas as pd
 
-TIME = '8:30'
-TIME_S = '08:00'
+TIME = '00:00'
+TIME_S = '12:00'
 
 CH_ID = '-1001501114700'
 
@@ -91,6 +92,10 @@ def todayAdv():
     for i in range(len(tml)):
         for j in range(len(tml[i])):
             md = FTE.getMatchData(i,SPORTS.teams_odds_to_apifootball[i][tml[i][j]['home_team']],SPORTS.teams_odds_to_apifootball[i][tml[i][j]['away_team']])
+            md2 = FTE.getMatchData(i,tml[i][j]['home_team'],tml[i][j]['away_team'])
+            if md.size == 0:
+                md = md2
+                md2 = pd.DataFrame()
             if md.size > 0:
                 res = Checker.check(md, tml[i][j])
             else:
@@ -127,7 +132,7 @@ def advToText(adv):
                 t+='\n'
         t+='--------------------------------------\n'
     t+='Kcur - from '+SPORTS.bookmaker_name+'\n'
-    t+='Recommended rate - '+str(round(SPORTS.alpha*100, 2))+'% of the bank.'
+    #t+='Recommended rate - '+str(round(SPORTS.alpha*100, 2))+'% of the bank.'
     return t
         
 
