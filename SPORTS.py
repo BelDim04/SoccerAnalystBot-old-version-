@@ -6,13 +6,13 @@ Created on Mon Jul 26 01:56:04 2021
 """
 import math
 
-sports_odds = ['soccer_italy_serie_b', 'soccer_sweden_allsvenskan', 'soccer_norway_eliteserien','soccer_usa_mls','soccer_brazil_campeonato','soccer_japan_j_league']
+sports_odds = ['soccer_italy_serie_b', 'soccer_sweden_allsvenskan', 'soccer_norway_eliteserien','soccer_brazil_campeonato','soccer_japan_j_league']
 
 sport_title_odds = ['Serie B - Italy', 'Allsvenskan - Sweden', 'Eliteserien - Norway','MLS', 'Brazil S\u00e9rie A','J League']
 
-leagues_fte = [1856, 1874, 1859, 1951, 2105, 1947]
+leagues_fte = [1856, 1874, 1859, 2105, 1947]
 
-leagues_apifootball = [136, 113, 103, 253, 71, 98]
+leagues_apifootball = [136, 113, 103, 71, 98]
 
 teams_odds_to_apifootball=[{
     'Parma':'Parma',
@@ -69,16 +69,6 @@ teams_odds_to_apifootball=[{
      'Vålerenga':'Valerenga',
      'Sarpsborg FK':'Sarpsborg 08 FF',
      'Stromsgodset':'Stromsgodset'
-    },{
-     'Seattle Sounders FC':'Seattle Sounders',
-     'San Jose Earthquakes':'San Jose Earthquakes',
-     'Orlando City SC':'Orlando City SC',
-     'New York Red Bulls':'New York Red Bulls',
-     'Vancouver Whitecaps FC':'Vancouver Whitecaps',
-     'New England Revolution':'New England Revolution',
-     'Sporting Kansas City':'Sporting Kansas City',
-     'Nashville SC':'Nashville SC',
-     'Charlotte FC':'Charlotte'
     },
       {
      'Internacional':'Internacional',
@@ -139,3 +129,23 @@ gamma = 0.75
 mu = 0.04
 
 alpha = 1 - gamma**(1/math.log(mu, 1 - min_prob))
+
+'''
+,{
+     'Seattle Sounders FC':'Seattle Sounders',
+     'San Jose Earthquakes':'San Jose Earthquakes',
+     'Orlando City SC':'Orlando City SC',
+     'New York Red Bulls':'New York Red Bulls',
+     'Vancouver Whitecaps FC':'Vancouver Whitecaps',
+     'New England Revolution':'New England Revolution',
+     'Sporting Kansas City':'Sporting Kansas City',
+     'Nashville SC':'Nashville SC',
+     'Charlotte FC':'Charlotte'
+    }
+
+,'soccer_usa_mls'
+
+ 1951,
+ 
+ , 253
+'''
