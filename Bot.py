@@ -16,8 +16,8 @@ import Checker
 from datetime import datetime, timedelta
 import pandas as pd
 
-TIME = '00:00'
-TIME_S = '12:00'
+TIME = '07:00'
+TIME_S = '07:30'
 
 CH_ID = '-1001501114700'
 

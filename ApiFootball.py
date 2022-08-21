@@ -21,5 +21,6 @@ def dateMatches(date, leaguen):
         }
     conn.request("GET", "/fixtures?league="+str(lid)+"&season="+SEASON+"&date="+date.strftime('%Y-%m-%d'), headers=headers)
     res = conn.getresponse()
+    data = res.read()
     conn.close()
-    return json.loads(res.read().decode())["response"]
+    return json.loads(data.decode())["response"]

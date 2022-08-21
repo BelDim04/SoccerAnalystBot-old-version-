@@ -8,7 +8,7 @@ import math
 
 sports_odds = ['soccer_italy_serie_b', 'soccer_sweden_allsvenskan', 'soccer_norway_eliteserien','soccer_brazil_campeonato','soccer_japan_j_league']
 
-sport_title_odds = ['Serie B - Italy', 'Allsvenskan - Sweden', 'Eliteserien - Norway','MLS', 'Brazil S\u00e9rie A','J League']
+sport_title_odds = ['Serie B - Italy', 'Allsvenskan - Sweden', 'Eliteserien - Norway', 'Brazil S\u00e9rie A', 'J League']
 
 leagues_fte = [1856, 1874, 1859, 2105, 1947]
 
