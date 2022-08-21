@@ -7,10 +7,10 @@ Created on Tue Jul 27 01:50:17 2021
 
 import psycopg2
 
-DB_NAME='ddvai2bm0li6i0'
-USER='dntyphvnezrncl'
-PASSWORD='e2582bff920eb3d8772ad2345c2ec6d7666efc435c62a47ab297219992222e76'
-HOST='ec2-108-128-104-50.eu-west-1.compute.amazonaws.com'
+DB_NAME='name'
+USER='user'
+PASSWORD='password'
+HOST='host'
 
 #-----------------------------------------------------------------------------
 ID = 0
