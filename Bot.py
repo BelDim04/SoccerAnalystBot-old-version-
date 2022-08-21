@@ -19,10 +19,10 @@ import pandas as pd
 TIME = '07:00'
 TIME_S = '07:30'
 
-CH_ID = '-1001501114700'
+CH_ID = 'chat id'
 
 
-TOKEN = 'Your Tg token'
+TOKEN = 'Tg token'
 bot = telebot.AsyncTeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
