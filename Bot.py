@@ -22,7 +22,7 @@ TIME_S = '07:30'
 CH_ID = '-1001501114700'
 
 
-TOKEN = '1815897690:AAHH3V0B_c4LzN97e4X95Z_fQtQonagw7wU'
+TOKEN = 'Your Tg token'
 bot = telebot.AsyncTeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
