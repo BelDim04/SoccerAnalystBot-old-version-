@@ -9,7 +9,7 @@ import SPORTS
 import http.client
 import json
 
-TOKEN = 'cc1db6a03b8d7b4e47ff6beaee4a8e16'
+TOKEN = 'api token'
 SEASON = '2022'
 
 def dateMatches(date, leaguen):
