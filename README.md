@@ -11,3 +11,5 @@ For analyse I use goal matrix.
 ![image](https://user-images.githubusercontent.com/61517245/185801190-fbe17cdb-cf54-41b5-a5cb-3fde6fb1f5a1.png)
 
 Bot uses probabilities from https://projects.fivethirtyeight.com/soccer-predictions/
+
+Hosting on Heroku
