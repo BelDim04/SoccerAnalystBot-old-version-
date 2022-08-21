@@ -12,7 +12,7 @@ import datetime
 
 
 
-API_KEY = 'b93d870cbb382d6f225416897686a12c'
+API_KEY = 'api token'
 
 SPORT = SPORTS.sports_odds
 
