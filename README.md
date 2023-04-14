@@ -1,6 +1,6 @@
 # SoccerAnalystBot-old-version-
 
-Temporary closed(, new version will be introduced soon.
+###Temporary closed(, new version will be introduced soon.
 
 Math-based helper for sports betting. Check informatinon in Telegram @SoccerAnalystBot and https://t.me/SoccerAnalystPublic 
 
