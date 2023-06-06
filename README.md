@@ -15,3 +15,6 @@ For analyse I use goal matrix.
 Bot uses probabilities from https://projects.fivethirtyeight.com/soccer-predictions/
 
 Hosting on Heroku
+
+### Results
+[soccer_analyst.ipynb](https://github.com/BelDim04/SoccerAnalystBot-old-version-/blob/master/soccer_analyst.ipynb)
